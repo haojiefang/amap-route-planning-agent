@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🗺️ 智能路径规划助手 - 项目介绍</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #0969da;
+            --secondary-color: #656d76;
+            --success-color: #1a7f37;
+            --warning-color: #9a6700;
+            --danger-color: #cf222e;
+            --bg-color: #ffffff;
+            --border-color: #d1d9e0;
+            --code-bg: #f6f8fa;
+            --shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #1f2328;
+            background-color: var(--bg-color);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0969da 0%, #0550ae 100%);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .badge-container {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            margin: 0.25rem;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            text-decoration: none;
+        }
+
+        .section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .section h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 1rem 0;
+            font-size: 1.5rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            background: var(--code-bg);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .feature-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+            font-size: 1.25rem;
+        }
+
+        .mermaid-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border-color);
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .code-block {
+            background: var(--code-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .tech-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: var(--code-bg);
+            border-radius: 0.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .tech-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+        }
+
+        .workflow-step {
+            display: flex;
+            align-items: flex-start;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: var(--code-bg);
+            border-radius: 0.5rem;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .step-number {
+            background: var(--primary-color);
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .api-endpoint {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 0.375rem;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+        }
+
+        .method {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .method.post {
+            background: #198754;
+            color: white;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #a8e6cf 0%, #dcedc1 100%);
+            padding: 0.125rem 0.25rem;
+            border-radius: 0.25rem;
+        }
+
+        .footer {
+            background: #f6f8fa;
+            padding: 3rem 0;
+            margin-top: 3rem;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .container {
+                padding: 0 1rem;
+            }
+            .section {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>🗺️ 智能路径规划助手</h1>
+            <p>基于自然语言交互的智能出行规划系统</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- 项目徽章 -->
+        <div class="badge-container">
+            <span class="badge">Python 3.8+</span>
+            <span class="badge">FastAPI</span>
+            <span class="badge">Streamlit</span>
+            <span class="badge">GPT-4</span>
+            <span class="badge">高德地图API</span>
+            <span class="badge">MCP协议</span>
+        </div>
+
+        <!-- 项目概述 -->
+        <div class="section">
+            <h2>📋 项目概述</h2>
+            <p>智能路径规划助手是一个创新的出行规划系统，它将<span class="highlight">自然语言处理</span>、<span class="highlight">人工智能</span>和<span class="highlight">地图服务</span>完美结合。用户只需用自然语言描述出行需求，系统就能智能理解并提供最优的路径规划方案。</p>
+            
+            <h3>🎯 核心价值</h3>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>🗣️ 自然交互</h4>
+                    <p>支持中文对话式交互，无需学习复杂的操作界面，像聊天一样规划路径。</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🧠 智能理解</h4>
+                    <p>基于GPT-4的强大语言理解能力，准确识别用户意图和地址信息。</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🚀 高效规划</h4>
+                    <p>集成高德地图实时数据，提供准确的路径规划和交通信息。</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🔄 智能纠错</h4>
+                    <p>支持多轮对话和智能纠错，提升用户体验。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 技术架构 -->
+        <div class="section">
+            <h2>🏗️ 技术架构</h2>
+            <p>系统采用<strong>前后端分离</strong>的现代化架构设计，各组件职责明确，易于扩展和维护。</p>
+            
+            <div class="mermaid-container">
+                <div class="mermaid">
+                    graph TB
+                        subgraph "🖥️ 前端层"
+                            A[Streamlit Web界面] --> B[用户交互处理]
+                            B --> C[会话状态管理]
+                        end
+                        
+                        subgraph "🔌 API层"
+                            D[FastAPI 后端] --> E[路由处理]
+                            E --> F[请求验证]
+                            F --> G[响应格式化]
+                        end
+                        
+                        subgraph "🧠 AI处理层"
+                            H[GPT-4 模型] --> I[意图识别]
+                            I --> J[地址解析]
+                            J --> K[自然语言生成]
+                        end
+                        
+                        subgraph "🗺️ 地图服务层"
+                            L[高德地图API] --> M[MCP客户端]
+                            M --> N[地理编码]
+                            M --> O[路径规划]
+                            M --> P[距离计算]
+                        end
+                        
+                        subgraph "💾 数据层"
+                            Q[会话存储] --> R[状态管理]
+                            S[日志系统] --> T[错误追踪]
+                        end
+                        
+                        C --> D
+                        G --> H
+                        K --> L
+                        R --> E
+                        T --> E
+                        
+                        style A fill:#e3f2fd
+                        style D fill:#f3e5f5  
+                        style H fill:#fff3e0
+                        style L fill:#e8f5e8
+                        style Q fill:#fce4ec
+                </div>
+            </div>
+
+            <h3>💻 技术栈</h3>
+            <div class="tech-stack">
+                <div class="tech-item">
+                    <span class="tech-icon">🐍</span>
+                    <div>
+                        <strong>Python 3.8+</strong><br>
+                        主要开发语言，异步编程支持
+                    </div>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-icon">⚡</span>
+                    <div>
+                        <strong>FastAPI</strong><br>
+                        现代化Web框架，自动API文档
+                    </div>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-icon">🎨</span>
+                    <div>
+                        <strong>Streamlit</strong><br>
+                        快速构建数据应用界面
+                    </div>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-icon">🤖</span>
+                    <div>
+                        <strong>OpenAI GPT-4</strong><br>
+                        强大的自然语言理解能力
+                    </div>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-icon">🗺️</span>
+                    <div>
+                        <strong>高德地图API</strong><br>
+                        准确的地图数据和路径规划
+                    </div>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-icon">🔗</span>
+                    <div>
+                        <strong>MCP协议</strong><br>
+                        模型上下文协议，连接AI和工具
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 核心流程 -->
+        <div class="section">
+            <h2>⚙️ 核心处理流程</h2>
+            <p>系统的路径规划过程经过精心设计，确保每个步骤都能准确理解用户需求并提供最优解决方案。</p>
+
+            <div class="mermaid-container">
+                <div class="mermaid">
+                    flowchart TD
+                        A["👤 用户输入<br/>自然语言描述"] --> B["🧠 GPT-4 意图识别<br/>解析用户需求"]
+                        
+                        B --> C{"🤔 意图类型判断"}
+                        C -->|路径规划| D["📍 提取地点信息<br/>起点和终点"]
+                        C -->|地址纠错| E["🔧 处理纠错信息<br/>更新地址"]
+                        C -->|其他询问| F["💬 通用对话处理"]
+                        
+                        D --> G["🏙️ 城市信息确认<br/>disambiguation"]
+                        E --> G
+                        
+                        G --> H["📝 地址标准化<br/>格式化处理"]
+                        H --> I["🌐 高德地图地理编码<br/>获取经纬度坐标"]
+                        I --> J["📏 计算两点距离<br/>判断出行方式"]
+                        
+                        J --> K{"📐 距离判断"}
+                        K -->|≤ 1.5km| L["🚶‍♂️ 步行路径规划<br/>walking API"]
+                        K -->|> 1.5km| M["🚇 公共交通规划<br/>transit API"]
+                        
+                        L --> N["📄 结果格式化<br/>生成用户友好输出"]
+                        M --> N
+                        
+                        N --> O["✅ 返回最终结果<br/>展示给用户"]
+                        
+                        F --> O
+                        
+                        style A fill:#e3f2fd
+                        style B fill:#fff3e0
+                        style C fill:#f3e5f5
+                        style G fill:#e8f5e8
+                        style N fill:#fce4ec
+                        style O fill:#e0f2f1
+                </div>
+            </div>
+
+            <h3>📋 详细处理步骤</h3>
+            
+            <div class="workflow-step">
+                <div class="step-number">1</div>
+                <div>
+                    <h4>意图识别与解析</h4>
+                    <p>使用GPT-4分析用户输入，识别是否为路径规划需求、地址纠错或其他类型的询问。系统能够理解各种表达方式，如"从A到B怎么走"、"去某地的路线"等。</p>
+                </div>
+            </div>
+
+            <div class="workflow-step">
+                <div class="step-number">2</div>
+                <div>
+                    <h4>地点信息提取</h4>
+                    <p>从用户输入中精确提取起点和终点信息，保持用户的原始表述，避免过早的地址转换可能带来的信息丢失。</p>
+                </div>
+            </div>
+
+            <div class="workflow-step">
+                <div class="step-number">3</div>
+                <div>
+                    <h4>城市信息确认</h4>
+                    <p>当地点信息不够明确时，系统会智能推测可能的城市，并在必要时向用户确认，确保地址解析的准确性。</p>
+                </div>
+            </div>
+
+            <div class="workflow-step">
+                <div class="step-number">4</div>
+                <div>
+                    <h4>地址标准化处理</h4>
+                    <p>将自然语言描述的地点转换为标准格式，结合城市信息生成完整的地址描述，为后续的地理编码做准备。</p>
+                </div>
+            </div>
+
+            <div class="workflow-step">
+                <div class="step-number">5</div>
+                <div>
+                    <h4>地理编码与距离计算</h4>
+                    <p>调用高德地图API进行地理编码，获取精确的经纬度坐标，并计算两点间的直线距离，为选择合适的出行方式提供依据。</p>
+                </div>
+            </div>
+
+            <div class="workflow-step">
+                <div class="step-number">6</div>
+                <div>
+                    <h4>智能路径规划</h4>
+                    <p>根据距离选择最适合的出行方式：短距离（≤1.5km）推荐步行，长距离推荐公共交通。系统会获取实时路况和交通信息。</p>
+                </div>
+            </div>
+
+            <div class="workflow-step">
+                <div class="step-number">7</div>
+                <div>
+                    <h4>结果格式化与展示</h4>
+                    <p>将API返回的原始数据转换为用户友好的格式，包括路线描述、预计时间、费用估算等信息，以清晰的方式展示给用户。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- API接口 -->
+        <div class="section">
+            <h2>🔌 API 接口设计</h2>
+            <p>系统提供RESTful API接口，支持完整的路径规划功能和会话管理。</p>
+
+            <h3>🚀 核心接口</h3>
+            
+            <div class="api-endpoint">
+                <span class="method post">POST</span> <strong>/route</strong> - 路径规划接口
+                <div class="code-block">
+<pre><code class="language-json">{
+    "user_input": "从莲花山到壹方城怎么走",
+    "session_id": "optional_session_id"
+}</code></pre>
+                </div>
+                <p><strong>功能：</strong>接受自然语言输入，返回路径规划结果</p>
+            </div>
+
+            <div class="api-endpoint">
+                <span class="method post">POST</span> <strong>/confirm_city</strong> - 城市确认接口
+                <div class="code-block">
+<pre><code class="language-json">{
+    "session_id": "session_id_here", 
+    "city_input": "深圳"
+}</code></pre>
+                </div>
+                <p><strong>功能：</strong>处理城市确认和地址消歧义</p>
+            </div>
+
+            <h3>📊 响应格式</h3>
+            <div class="code-block">
+<pre><code class="language-json">{
+    "success": true,
+    "message": "🗺️ 路径规划结果\n📍 起点：莲花山公园...",
+    "need_city_confirmation": false,
+    "session_id": "session_123"
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- 关键特性 -->
+        <div class="section">
+            <h2>✨ 关键特性解析</h2>
+
+            <h3>🎯 智能意图识别</h3>
+            <p>系统使用GPT-4进行深度语言理解，能够准确识别用户的真实意图：</p>
+            <ul>
+                <li><strong>路径规划请求</strong>：识别起点终点，规划最优路线</li>
+                <li><strong>地址纠错</strong>：处理用户对之前规划结果的纠正</li>
+                <li><strong>追问澄清</strong>：针对模糊地址进行智能推测和确认</li>
+            </ul>
+
+            <h3>🔄 会话状态管理</h3>
+            <div class="mermaid-container">
+                <div class="mermaid">
+                    stateDiagram-v2
+                        [*] --> Start
+                        Start --> IntentAnalysis : 用户输入
+                        IntentAnalysis --> CityConfirmation : 需要确认城市
+                        IntentAnalysis --> Processing : 意图明确
+                        CityConfirmation --> Processing : 城市确认完成
+                        Processing --> RouteResult : 规划成功
+                        Processing --> ErrorHandling : 处理失败
+                        RouteResult --> [*]
+                        ErrorHandling --> CityConfirmation : 需要重新确认
+                        ErrorHandling --> [*] : 错误处理完成
+                        
+                        note right of CityConfirmation
+                            保存用户输入和意图分析结果
+                            等待城市确认
+                        end note
+                        
+                        note right of Processing
+                            执行地址解析
+                            调用地图API
+                            生成路径规划
+                        end note
+                </div>
+            </div>
+
+            <h3>🛡️ 容错与重试机制</h3>
+            <p>系统设计了完善的容错机制，确保服务的稳定性：</p>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>🔄 自动重试</h4>
+                    <p>API调用失败时自动重试，支持指数退避策略。</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🎯 降级处理</h4>
+                    <p>地址解析失败时，尝试简化格式重新处理。</p>
+                </div>
+                <div class="feature-card">
+                    <h4>📝 详细日志</h4>
+                    <p>记录详细的执行日志，便于问题排查和优化。</p>
+                </div>
+                <div class="feature-card">
+                    <h4>⚠️ 优雅错误</h4>
+                    <p>向用户提供友好的错误提示，指导下一步操作。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 使用示例 -->
+        <div class="section">
+            <h2>💡 使用示例</h2>
+            
+            <h3>📝 基础路径规划</h3>
+            <div class="code-block">
+<pre><code>👤 用户: 从莲花山到壹方城怎么走
+
+🤖 助手: 🗺️ 路径规划结果
+
+📍 起点：莲花山公园 (深圳市福田区)
+📍 终点：壹方城购物中心 (深圳市宝安区)
+📏 距离：约 15.2 公里
+
+🚇 推荐公共交通路线：
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚶‍♂️ 步行 3分钟 → 🚇 莲花山公园站 (2号线)
+⬇️ 乘坐 8分钟 → 🚇 福田站
+🔄 换乘 1号线 → ⬇️ 乘坐 25分钟 → 🚇 宝安中心站  
+🚶‍♂️ 步行 5分钟 → 📍 壹方城购物中心
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⏱️ 总用时：约 41 分钟
+💰 预计费用：7 元</code></pre>
+            </div>
+
+            <h3>🔧 智能纠错场景</h3>
+            <div class="code-block">
+<pre><code>👤 用户: 从深圳北站到华强北
+
+🤖 助手: [提供路径规划结果]
+
+👤 用户: 不对，我说的是龙华的华强北
+
+🤖 助手: 明白了！您是想去龙华区的华强北。让我重新为您规划路线...
+
+📍 起点：深圳北站 (龙华区)  
+📍 终点：华强北商业区 (龙华区)
+📏 距离：约 3.2 公里
+
+🚶‍♂️ 推荐步行路线：......</code></pre>
+            </div>
+
+            <h3>❓ 城市确认场景</h3>
+            <div class="code-block">
+<pre><code>👤 用户: 从天安门到王府井怎么走
+
+🤖 助手: 我猜您说的是北京的天安门和王府井，对吗？
+
+👤 用户: 是的
+
+🤖 助手: 🗺️ 北京路径规划结果
+[显示详细路径规划]</code></pre>
+            </div>
+        </div>
+
+        <!-- 部署说明 -->
+        <div class="section">
+            <h2>🚀 部署与运行</h2>
+            
+            <h3>📋 环境要求</h3>
+            <ul>
+                <li>Python 3.8+ 运行环境</li>
+                <li>高德地图开放平台API密钥</li>
+                <li>OpenAI API密钥（支持GPT-4）</li>
+            </ul>
+
+            <h3>⚡ 快速启动</h3>
+            <div class="code-block">
+<pre><code class="language-bash"># 1. 克隆项目
+git clone https://github.com/haojiefang/amap-route-planning-agent.git
+cd amap-route-planning-agent
+
+# 2. 创建虚拟环境
+python -m venv venv
+.\venv\Scripts\Activate.ps1  # Windows
+# source venv/bin/activate    # macOS/Linux
+
+# 3. 安装依赖
+pip install -r requirements.txt
+
+# 4. 配置环境变量
+cp .env.example .env
+# 编辑 .env 文件，填入API密钥
+
+# 5. 启动服务
+python app.py</code></pre>
+            </div>
+
+            <h3>🌐 访问地址</h3>
+            <ul>
+                <li><strong>前端界面：</strong> <a href="http://localhost:8501">http://localhost:8501</a></li>
+                <li><strong>API文档：</strong> <a href="http://localhost:8000/docs">http://localhost:8000/docs</a></li>
+                <li><strong>API根路径：</strong> <a href="http://localhost:8000">http://localhost:8000</a></li>
+            </ul>
+        </div>
+
+      
+    </div>
+
+    <!-- 页脚 -->
+    <div class="footer">
+        <div class="container">
+            <p>🚀 <strong>智能路径规划助手</strong> - 让出行规划更智能</p>
+            <p>👨‍💻 开发者：<a href="https://github.com/haojiefang">haojiefang</a></p>
+            <p>⭐ 如果这个项目对您有帮助，请给我们一个星标！</p>
+        </div>
+    </div>
+
+    <script>
+        // 初始化 Mermaid
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#0969da',
+                primaryTextColor: '#1f2328',
+                primaryBorderColor: '#d1d9e0',
+                lineColor: '#656d76',
+                secondaryColor: '#f6f8fa',
+                tertiaryColor: '#ffffff'
+            },
+            flowchart: {
+                curve: 'linear',
+                padding: 10
+            },
+            gantt: {
+                fontSize: 12,
+                sectionFontSize: 14,
+                gridLineStartPadding: 350
+            }
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // 代码高亮
+        Prism.highlightAll();
+    </script>
+</body>
+</html> 
